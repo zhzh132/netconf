@@ -27,6 +27,7 @@ import org.opendaylight.netconf.sal.connect.netconf.sal.tx.ReadWriteTx;
 import org.opendaylight.netconf.sal.connect.netconf.sal.tx.TxChain;
 import org.opendaylight.netconf.sal.connect.netconf.sal.tx.WriteCandidateRunningTx;
 import org.opendaylight.netconf.sal.connect.netconf.sal.tx.WriteCandidateTx;
+import org.opendaylight.netconf.sal.connect.netconf.sal.tx.WriteRunningNoLockTx;
 import org.opendaylight.netconf.sal.connect.netconf.sal.tx.WriteRunningTx;
 import org.opendaylight.netconf.sal.connect.netconf.util.NetconfBaseOps;
 import org.opendaylight.netconf.sal.connect.util.RemoteDeviceId;
@@ -77,6 +78,10 @@ public final class NetconfDeviceDataBroker implements DOMDataBroker {
         } else {
             return new WriteRunningTx(id, netconfOps, rollbackSupport);
         }
+    }
+    
+    public DOMDataWriteTransaction newWriteOnlyNoLockTransaction() {
+    	return new WriteRunningNoLockTx(id, netconfOps, rollbackSupport);
     }
 
     @Override
