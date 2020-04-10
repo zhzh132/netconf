@@ -234,10 +234,17 @@ public final class NetconfBaseOps {
 
         final ListenableFuture<DOMRpcResult> future;
 
-        future = isFilterPresent(filterPath)
-                ? rpc.invokeRpc(toPath(NETCONF_GET_QNAME),
-                NetconfMessageTransformUtil.wrap(NETCONF_GET_QNAME, toFilterStructure(filterPath.get(), schemaContext)))
-                : rpc.invokeRpc(toPath(NETCONF_GET_QNAME), NetconfMessageTransformUtil.GET_RPC_CONTENT);
+//        future = isFilterPresent(filterPath)
+//                ? rpc.invokeRpc(toPath(NETCONF_GET_QNAME),
+//                NetconfMessageTransformUtil.wrap(NETCONF_GET_QNAME, toFilterStructure(filterPath.get(), schemaContext)))
+//                : rpc.invokeRpc(toPath(NETCONF_GET_QNAME), NetconfMessageTransformUtil.GET_RPC_CONTENT);
+        
+        if (isFilterPresent(filterPath)) {
+        	future = rpc.invokeRpc(toPath(NETCONF_GET_QNAME),
+                    NetconfMessageTransformUtil.wrap(NETCONF_GET_QNAME, transformer.toFilterStructure(filterPath.get())));
+        } else {
+        	future = rpc.invokeRpc(toPath(NETCONF_GET_QNAME), NetconfMessageTransformUtil.GET_RPC_CONTENT);
+        }
 
         Futures.addCallback(future, callback, MoreExecutors.directExecutor());
         return future;

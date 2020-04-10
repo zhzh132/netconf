@@ -84,6 +84,11 @@ module netconf-node-topology {
             default false;
         }
 
+        leaf device-family {
+            type string;
+            default "UNKNOWN";
+        }
+
         container yang-module-capabilities {
             config true;
             leaf override {
